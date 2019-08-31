@@ -1,85 +1,88 @@
 #include<iostream>
 #include<string>
 #include<fstream>
+using namespace std;
+
 void library();
 
 class add{
 	public:
-	    char bname[10];
-        char author[10];
-        int qty;
+		char bname[10];
+       		char author[10];
+        	int qty;
 		void addition()
 		{
 			char ch;
-            std::fstream file;
-            std::string line;
-			file.open("books.txt",std::ios::in|std::ios::out|std::ios::app);
+            		fstream file;
+            		string line;
+			file.open("books.txt",ios::in|ios::out|ios::app);
 			if(!file.is_open()){
-				std::cout<<"file not found";
+				cout<<"file not found";
 			}
-            std::cout<<"Enter book name:\t";
-            std::cin>>bname;
-            std::cout<<std::endl;
-            while(!file.eof()){
-                getline(file,line);
-                if (line.find(bname)!= std::string::npos) {
-                    std::cout<<"already in the stock"<<std::endl;
-                    return;
-                }
-            }
-            std::cout<<"Author name:\t";
-            std::cin>>author;
-            std::cout<<std::endl;
-            std::cout<<"Quantity:\t";
-            std::cin>>qty;
-            std::cout<<std::endl;
+            		cout<<"Enter book name:\t";
+            		cin>>bname;
+            		cout<<endl;
+            		/*while(!file.eof()){
+                		getline(file,line);    //istream& getline (istream& is, string& str);
+                		if (line.find(bname)!= string::npos) {  //std::string::npos means not found, npos=-1
+                    			cout<<"already in the stock"<<endl;
+                    			goto start;
+                		}
+            		}*/
+            		cout<<"Author name:\t";
+            		cin>>author;
+            		cout<<endl;
+            		cout<<"Quantity:\t";
+            		cin>>qty;
+            		cout<<endl;
 
-            start:
-              std::cout<<"\npress 'y' to continue, 'm' for menu and 'n' to exit\n";
-              std::cin>>ch;
-              if(ch=='y')
-                   addition();
-              if(ch=='m')
-                  library();
-              else if(ch=='n')
-                  return;
-              else{
-                   std::cout<<"Invalid selection"<<std::endl;
-                   goto start;
-                   }
-			file<<bname<<"\t"<<author<<"\t"<<qty<<std::endl;
-			file.close();
-		}
+            		start:
+              			cout<<"\npress 'y' to continue, 'm' for menu and 'n' to exit\n";
+              			cin>>ch;
+              			if(ch=='y')
+                   			addition();
+              			if(ch=='m')
+                  			library();
+              			else if(ch=='n')
+                  			return;
+              			else{
+                   			cout<<"Invalid selection"<<endl;
+                   			goto start;
+                   		}
+				file<<bname<<"\t"<<author<<"\t"<<qty<<endl;
+				file.close();
+			}
 
 };
-class view_stock:public add
+class view_stock//:public add
 {
 	public:
 	friend void display();
 
 };
-class Search:public view_stock
+class Search//:public view_stock
 {
     public:
-        char ch,bname[10];
+    	char ch,bname[10];
         void searches(){
-            std::string line;
-            std::ifstream myfile;
+    	    string line;
+            ifstream myfile;
             myfile.open("books.txt");
 
-            std::cout<<"Enter the book name that needs to be searched"<<std::endl;
-            std::cin>>bname;
+            cout<<"Enter the book name that needs to be searched"<<endl;
+            cin>>bname;
             while(!myfile.eof()){
                 getline(myfile,line);
-                if (line.find(bname)!= std::string::npos) {
-                    std::cout<<"Found!"<<std::endl;
-                    std::cout<<line<<std::endl;
+                if (line.find(bname)!= string::npos) {
+                    cout<<"Found!"<<endl;
+                    cout<<line<<endl;
+                    break;
                 }
             }
 
         start:
-              std::cout<<"\npress 'y' to continue, 'm' for menu and 'n' to exit\n";
-              std::cin>>ch;
+              cout<<"\npress 'y' to continue, 'm' for menu and 'n' to exit\n";
+              cin>>ch;
               if(ch=='y')
                    searches();
               if(ch=='m')
@@ -87,41 +90,41 @@ class Search:public view_stock
               else if(ch=='n')
                   return;
               else{
-                   std::cout<<"Invalid selection"<<std::endl;
+                   cout<<"Invalid selection"<<endl;
                    goto start;
                    }
         }
 };
-class issue:public view_stock
+class issue//:public view_stock
 {
     public:
         //add a;
         char ch,bname[10];
         //friend void display();
         void issues(){
-            std::string line;
-            std::ifstream myfile;
+            string line;
+            ifstream myfile;
 
-            std::cout<<"Enter the book name that needs to be issued"<<std::endl;
-            std::cin>>bname;
+            cout<<"Enter the book name that needs to be issued"<<endl;
+            cin>>bname;
 
             myfile.open("books.txt");
 
             while(!myfile.eof()){
                 getline(myfile,line);
-                if (line.find(bname)!= std::string::npos) {
-                    std::cout<<"Book issued"<<std::endl;
+                if (line.find(bname)!= string::npos) {
+                    cout<<"Book issued"<<endl;
 
-                    std::fstream file;
-                    file.open("issue.txt",std::ios::in|std::ios::out|std::ios::app);
+                    fstream file;
+                    file.open("issue.txt",ios::in|ios::out|ios::app);
                     file<<line<<std::endl;
                     file.close();
                 }
             }
 
         start:
-              std::cout<<"\npress 'y' to continue, 'm' for menu and 'n' to exit\n";
-              std::cin>>ch;
+              cout<<"\npress 'y' to continue, 'm' for menu and 'n' to exit\n";
+              cin>>ch;
               if(ch=='y')
                    issues();
               if(ch=='m')
@@ -129,7 +132,7 @@ class issue:public view_stock
               else if(ch=='n')
                   return;
               else{
-                   std::cout<<"Invalid selection"<<std::endl;
+                   cout<<"Invalid selection"<<endl;
                    goto start;
                    }
         }
@@ -139,24 +142,24 @@ class view_issuedbooks
  public:
      char ch;
      void issue_stock(){
-        std::fstream file;
-        file.open("issue.txt",std::ios::in);
+        fstream file;
+        file.open("issue.txt",ios::in);
         if(file.is_open()){
-            std::string line;
+            string line;
             while(getline(file, line)){
-                std::cout<< line<< std::endl;
+                cout<< line<< endl;
             }
         }
 
     start:
-              std::cout<<"\npress 'm' for menu and 'n' to exit\n";
-              std::cin>>ch;
+              cout<<"\npress 'm' for menu and 'n' to exit\n";
+              cin>>ch;
               if(ch=='m')
                   library();
               else if(ch=='n')
                   return;
               else{
-                   std::cout<<"Invalid selection"<<std::endl;
+                   cout<<"Invalid selection"<<endl;
                    goto start;
                    }
      }
@@ -165,22 +168,35 @@ class deposit:public add
 {
     public:
         void deposits(){
-        add a;
-        a.addition();
+            add a;
+            a.addition();
         }
 };
 void display()
 {
-    std::fstream file;
-    file.open("books.txt",std::ios::in);
+    char ch;
+    fstream file;
+    file.open("books.txt",ios::in);
     if(file.is_open())
     {
-        std::string line;
+        string line;
         while(getline(file, line))
         {
-            std::cout<< line<< std::endl;
+            cout<< line<< endl;
         }
     }
+    start:
+              cout<<"\npress 'm' for menu and 'n' to exit\n";
+              cin>>ch;
+              if(ch=='m')
+                  library();
+              else if(ch=='n')
+                  return;
+              else{
+                   cout<<"Invalid selection"<<endl;
+                   goto start;
+                   }
+    
 }
 
 
@@ -193,9 +209,9 @@ void library(){
 	Search s;
 	deposit d;
 
-	std::cout<<"1. Add Books \n"<<"2. Issue \n"<<"3. View Issued Stock \n"<<"4. Deposition \n"<<"5. View Library Stock \n"<<"6. Searching"<<"7. Exit \n"<<std::endl;
-	std::cout<<"Select options"<<std::endl;
-	std::cin>>n;
+	cout<<"1. Add Books \n"<<"2. Issue \n"<<"3. View Issued Stock \n"<<"4. Deposition \n"<<"5. View Library Stock \n"<<"6. Searching \n"<<"7. Exit \n"<<endl;
+	cout<<"Select options"<<endl;
+	cin>>n;
 	switch(n)
 	{
 		case 1: a.addition(); //add books
@@ -212,7 +228,7 @@ void library(){
 		break;
 		case 7: return;
 		break;
-		default: std::cout<<"invalid";
+		default: cout<<"invalid";
 	}
 }
 
